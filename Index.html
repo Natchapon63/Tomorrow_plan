@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>แผนงานวันอังคารที่ 17 พ.ย. 2026 &amp; Priority Tracker — Thursday Studio</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', 'Noto Sans Thai', system-ui, -apple-system, sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
+
+    <!-- Header -->
+    <header class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div>
+        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-semibold mb-2">
+          <span>📋 Thursday Studio · Managing Officer</span>
+          <span>•</span>
+          <span>อัปเดตจาก Notion 17 พ.ย. 2026</span>
+        </div>
+        <h1 class="text-xl sm:text-2xl font-bold text-slate-900">
+          แผนงานวันอังคารที่ 17 พฤศจิกายน 2026
+        </h1>
+        <p class="text-sm text-slate-500 mt-1">
+          อัปเดตหลังปิดงาน CanMake และ BABALAH — พร้อมรายการค้างส่ง, Priority และงานที่ยังไม่ Book วันถ่าย
+        </p>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="https://app.notion.com/p/4166e8aac17c804fb2cbebc303c3ce3c" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 text-white text-xs sm:text-sm font-medium hover:bg-slate-800 transition">
+          🚀 เปิด Space
+        </a>
+        <a href="https://app.notion.com/p/4196e8aac17c81a9842edae564ad1152" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-slate-300 text-slate-700 text-xs sm:text-sm font-medium hover:bg-slate-50 transition">
+          📝 Daily Notes
+        </a>
+      </div>
+    </header>
+
+    <!-- KPI Cards -->
+    <section class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4" id="kpi-grid">
+      <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
+        <p class="text-xs font-medium text-slate-500">ต้องทำวันนี้ (17 พ.ย.)</p>
+        <p class="text-2xl font-bold text-indigo-600 mt-1" id="kpi-tomorrow">4 งาน</p>
+        <p class="text-xs text-slate-500 mt-1" id="kpi-todo-progress">เสร็จแล้ว 0 / 4 รายการ</p>
+      </div>
+      <div class="bg-rose-50 rounded-2xl border border-rose-200 p-4 shadow-sm">
+        <p class="text-xs font-medium text-rose-700">🚨 ใกล้ส่ง / เลยกำหนด</p>
+        <p class="text-2xl font-bold text-rose-700 mt-1" id="kpi-urgent">0 งาน</p>
+        <p class="text-xs text-rose-600 mt-1">ต้องเร่งปิด Draft หรือตามงาน</p>
+      </div>
+      <div class="bg-amber-50 rounded-2xl border border-amber-200 p-4 shadow-sm">
+        <p class="text-xs font-medium text-amber-800">📅 ยังไม่ Book วันถ่าย</p>
+        <p class="text-2xl font-bold text-amber-700 mt-1" id="kpi-unbooked">0 งาน</p>
+        <p class="text-xs text-amber-700 mt-1">ของถึงแล้วแต่ยังไม่มีวันถ่าย</p>
+      </div>
+      <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
+        <p class="text-xs font-medium text-slate-500">มูลค่างานทั้งหมด (12 งาน)</p>
+        <p class="text-2xl font-bold text-emerald-600 mt-1">24,500 ฿</p>
+        <p class="text-xs text-slate-500 mt-1">ส่งตรวจ 1 · รอรับเงิน 1</p>
+      </div>
+    </section>
+
+    <!-- Schedule + Alerts Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+      <!-- Left: Today's Priority To-Do List -->
+      <section class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-4">
+        <div class="flex items-center justify-between gap-2">
+          <div>
+            <h2 class="text-lg font-bold text-slate-900">✅ To-Do List วันอังคาร 17 พ.ย.</h2>
+            <p class="text-xs text-slate-500 mt-0.5">เรียงตาม Priority และงานที่ค้างจากเมื่อวาน (ติ๊กเพื่อบันทึกความคืบหน้า)</p>
+          </div>
+          <button id="reset-todos-btn" type="button"
+                  class="text-xs px-2.5 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-100 transition">
+            รีเซ็ตติ๊ก
+          </button>
+        </div>
+
+        <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+          <div id="todo-progress-bar" class="bg-indigo-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+
+        <div id="tomorrow-todo-list" class="space-y-3"></div>
+
+        <!-- Completed Yesterday -->
+        <div class="pt-3 border-t border-slate-100">
+          <p class="text-xs font-semibold uppercase tracking-wide text-emerald-600 mb-2">ปิดงานเมื่อวานเรียบร้อย (16 พ.ย.)</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div class="p-3 rounded-xl bg-emerald-50/70 border border-emerald-200">
+              <p class="text-xs font-bold text-emerald-900">✓ CanMake - Muchi Puru Tint</p>
+              <p class="text-xs text-emerald-700 mt-0.5">ตัดและส่ง Draft 1 แล้ว (สถานะ: ส่งตรวจ)</p>
+            </div>
+            <div class="p-3 rounded-xl bg-emerald-50/70 border border-emerald-200">
+              <p class="text-xs font-bold text-emerald-900">✓ BABALAH - Magic Blue Powder</p>
+              <p class="text-xs text-emerald-700 mt-0.5">โพสต์และปักตะกร้าแล้ว (สถานะ: รับเงิน)</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right: Urgent & Unbooked Highlights -->
+      <section class="lg:col-span-5 space-y-5">
+        <div class="bg-white rounded-2xl border border-rose-200 p-5 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <h2 class="text-base font-bold text-rose-800">🚨 ใกล้ส่ง / เลยกำหนด (ต้องรีบจัดการ)</h2>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-rose-100 text-rose-700" id="urgent-badge">0</span>
+          </div>
+          <div id="urgent-list" class="space-y-2.5"></div>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-amber-200 p-5 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <h2 class="text-base font-bold text-amber-900">📅 ยังไม่มี Book วันถ่าย (ของถึงแล้ว)</h2>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800" id="unbooked-badge">0</span>
+          </div>
+          <div id="unbooked-list" class="space-y-2.5"></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Master 12-Job Priority & Draft Table -->
+    <section class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-4">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900">📊 สรุปงานทั้งหมด &amp; กำหนดส่ง Draft 1 (เรียงตาม Priority)</h2>
+          <p class="text-xs text-slate-500 mt-0.5">กดแท็บด้านล่างเพื่อกรองดูเฉพาะงานที่ต้องโฟกัส</p>
+        </div>
+        <div class="w-full md:w-64">
+          <input id="search-input" type="text" placeholder="ค้นหาแบรนด์, งาน, ช่อง..."
+                 class="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" />
+        </div>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="flex flex-wrap gap-2" id="filter-tabs">
+        <button type="button" data-filter="all" class="filter-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-white transition">ทั้งหมด (12)</button>
+        <button type="button" data-filter="tomorrow" class="filter-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">ทำวันนี้ (4)</button>
+        <button type="button" data-filter="urgent" class="filter-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-rose-50 text-rose-700 hover:bg-rose-100 transition">🚨 ใกล้ส่ง/เลยกำหนด</button>
+        <button type="button" data-filter="unbooked" class="filter-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-amber-50 text-amber-800 hover:bg-amber-100 transition">📅 ยังไม่ Book วันถ่าย</button>
+        <button type="button" data-filter="waiting" class="filter-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">📦 รอพัสดุ (2)</button>
+      </div>
+
+      <!-- Responsive Table -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-slate-200 text-xs font-semibold text-slate-500 bg-slate-50">
+              <th class="py-3 px-3 rounded-tl-xl">Priority</th>
+              <th class="py-3 px-3">งาน / แคมเปญ</th>
+              <th class="py-3 px-3">สถานะ</th>
+              <th class="py-3 px-3">วันถ่ายทำ / ตัดต่อ</th>
+              <th class="py-3 px-3">วันส่ง Draft 1</th>
+              <th class="py-3 px-3">วันโพสต์งาน</th>
+              <th class="py-3 px-3 text-right rounded-tr-xl">ค่าตัว</th>
+            </tr>
+          </thead>
+          <tbody id="jobs-tbody" class="divide-y divide-slate-100"></tbody>
+        </table>
+      </div>
+      <p id="empty-state" class="hidden text-center text-sm text-slate-400 py-6">ไม่พบงานที่ตรงกับเงื่อนไขการค้นหา</p>
+    </section>
+
+  </div>
+
+  <script>
+    const JOBS = [
+      {
+        id: 'getandglow',
+        priority: 1,
+        priorityLabel: 'P1 ด่วนมาก',
+        name: 'GetandGlow - คุชชั่น',
+        brand: 'GetandGlow (คุณแอน)',
+        status: 'ตัดต่อ',
+        channel: 'phitccc',
+        budget: 2500,
+        filmingDate: 'ค้างตัดต่อ (จาก 16 พ.ย.)',
+        draftDate: '16 พ.ย. (เลย 1 วัน)',
+        postDate: '12 พ.ย. (เลยกำหนดเดิม)',
+        tomorrow: true,
+        urgent: true,
+        urgentReason: 'ยังไม่มีอัปเดต — ค้างตัดต่อและส่ง Draft 1 จากเมื่อวาน (16 พ.ย.)',
+        unbooked: false,
+        waitingParcel: false,
+        url: 'https://app.notion.com/p/4166e8aac17c8181b718cff436d52637'
+      },
+      {
+        id: 'merrezca',
+        priority: 1,
+        priorityLabel: 'P1 ด่วนมาก',
+        name: 'Merrezca - Eye See You Eyeshadow Palette',
+        brand: 'Merrezca (คุณมี่)',
+        status: 'ถ่ายทำ',
+        channel: 'phitccc',
+        budget: 3000,
+        filmingDate: '17 พ.ย. (13:00–16:00)',
+        draftDate: '16 พ.ย. (ต้องแจ้งเลื่อน)',
+        postDate: '23 พ.ย. 2026',
+        tomorrow: true,
+        urgent: true,
+        urgentReason: 'ถ่ายวันนี้ 13:00–16:00 น. — อย่าลืมแจ้งคุณมี่เลื่อนส่ง Draft 1',
+        unbooked: false,
+        waitingParcel: false,
+        url: 'https://app.notion.com/p/4166e8aac17c8145adc2c80f693a5702'
+      },
+      {
+        id: 'odbo',
+        priority: 2,
+        priorityLabel: 'P2 สำคัญ',
+        name: 'ODBO - Dew Drop Glow Tint (7-Eleven)',
+        brand: 'ODBO',
+        status: 'ถ่ายทำ',
+        channel: 'CandyPhitcc',
+        budget: 1000,
+        filmingDate: 'ยังไม่ Book วันถ่าย',
+        draftDate: '23 พ.ย. 2026',
+        postDate: '30 พ.ย. – 2 ธ.ค.',
+        tomorrow: true,
+        urgent: true,
+        urgentReason: 'ส่ง Draft 1 วันที่ 23 พ.ย. (อีก 6 วัน) แต่ยังไม่ Book วันถ่าย',
+        unbooked: true,
+        waitingParcel: false,
+        url: 'https://app.notion.com/p/4166e8aac17c813aab44ea6e2b2e6488'
+      },
+      {
+        id: 'misslens',
+        priority: 2,
+        priorityLabel: 'P2 สำคัญ',
+        name: 'MissLens - เหมา 10 คลิป/เดือน (Affiliate)',
+        brand: 'MissLens (คุณเจนนี่)',
+        status: 'ถ่ายทำ',
+        channel: 'phitccc',
+        budget: 9000,
+        filmingDate: 'ถ่ายเพิ่ม 1 คลิป (รอวิเคราะห์)',
+        draftDate: 'ไม่ต้องส่งดราฟ',
+        postDate: '1–2 คลิป/สัปดาห์ (ลงแล้ว 3/10)',
+        tomorrow: true,
+        urgent: false,
+        urgentReason: '',
+        unbooked: true,
+        waitingParcel: false,
+        url: 'https://app.notion.com/p/4166e8aac17c8158925fcfa2cce0a0a1'
+      },
+      {
+        id: 'colorkey',
+        priority: 2,
+        priorityLabel: 'P2 สำคัญ',
+        name: 'ColorKey - โทนเนอร์แพด',
+        brand: 'ColorKey Thailand (คุณแวน)',
+        status: 'ตัดต่อ',
+        channel: 'phitccc',
+        budget: 1500,
+        filmingDate: 'ถ่ายแล้ว (รอตัดต่อ)',
+        draftDate: 'ยังไม่มีกำหนดส่งใหม่',
+        postDate: '17–20 ส.ค. (วันเดิมในโน้ต)',
+        tomorrow: false,
+        urgent: true,
+        urgentReason: 'ถ่ายแล้วแต่ยังไม่ได้กำหนดวันส่งตัดต่อ/โพสต์ใหม่กับแบรนด์',
+        unbooked: false,
+        waitingParcel: false,
+        url: 'https://app.notion.com/p/4166e8aac17c81abbca5ef2364c7715c'
+      },
+      {
+        id: 'kate',
+        priority: 2,
+        priorityLabel: 'P2 สำคัญ',
+        name: 'Kate - Real Shading Stick (Barter)',
+        brand: 'KATE (คุณทราย)',
+        status: 'ถ่ายทำ',
+        channel: 'phitccc',
+        budget: 0,
+        filmingDate: 'ยังไม่ Book วันถ่าย',
+        draftDate: 'ไม่ต้องส่งดราฟ',
+        postDate: 'ภายใน 14 วันหลังรับของ (ถึง 15 พ.ย.)',
+        tomorrow: false,
+        urgent: false,
+        urgentReason: '',
+        unbooked: true,
+        waitingParcel: false,
+        url: 'https://app.notion.com/p/4166e8aac17c81ddbb88e9fb36f415f7'
+      },
+      {
+        id: 'canmake',
+        priority: 2,
+        priorityLabel: 'P2 รอผลตรวจ',
+        name: 'CanMake - Muchi Puru Tint',
+        brand: 'CanMake / Follow The Moon (คุณเป้)',
+        status: 'ส่งตรวจ',
+        channel: 'phitccc',
+        budget: 1000,
+        filmingDate: 'ถ่าย+ตัดเสร็จ 16 พ.ย.',
+        draftDate: 'ส่งแล้ว 16 พ.ย. 2026',
+        postDate: '19 พ.ย. 2026',
+        tomorrow: false,
+        urgent: false,
+        urgentReason: '',
+        unbooked: false,
+        waitingParcel: false,
+        url: 'https://app.notion.com/p/4166e8aac17c813692b0f385e97bc43f'
+      },
+      {
+        id: 'glad2glow',
+        priority: 3,
+        priorityLabel: 'P3 รอคิว',
+        name: 'Glad2Glow - Glow Cushion VS Pink Cushion',
+        brand: 'Glad2Glow (คุณต้า)',
+        status: 'ถ่ายทำ',
+        channel: 'phitccc',
+        budget: 2000,
+        filmingDate: 'ยังไม่ Book วันถ่าย',
+        draftDate: 'ยังไม่กำหนด',
+        postDate: 'ภายใน ธ.ค. 2026',
+        tomorrow: false,
+        urgent: false,
+        urgentReason: '',
+        unbooked: true,
+        waitingParcel: false,
+        url: 'https://app.notion.com/p/4166e8aac17c81e18349df48659211d6'
+      },
+      {
+        id: 'skintific',
+        priority: 3,
+        priorityLabel: 'P3 รอคิว',
+        name: 'Skintific - Lip Serum',
+        brand: 'Skintific',
+        status: 'ถ่ายทำ',
+        channel: 'phitccc',
+        budget: 2000,
+        filmingDate: 'ยังไม่ Book วันถ่าย',
+        draftDate: 'ยังไม่กำหนด',
+        postDate: 'ยังไม่กำหนด',
+        tomorrow: false,
+        urgent: false,
+        urgentReason: '',
+        unbooked: true,
+        waitingParcel: false,
+        url: 'https://app.notion.com/p/4166e8aac17c81eea275f39fd677491d'
+      },
+      {
+        id: 'lumini',
+        priority: 3,
+        priorityLabel: 'P3 รอคิว',
+        name: 'Lumini - Korea Lips gloss',
+        brand: 'Lumini / Glowdy TH',
+        status: 'รอพัสดุ',
+        channel: 'phitccc',
+        budget: 1000,
+        filmingDate: 'รอสินค้า',
+        draftDate: 'ยังไม่กำหนด',
+        postDate: 'ยังไม่กำหนด',
+        tomorrow: false,
+        urgent: false,
+        urgentReason: '',
+        unbooked: false,
+        waitingParcel: true,
+        url: 'https://app.notion.com/p/4166e8aac17c812bb323f9aaa8a40735'
+      },
+      {
+        id: 'kiko',
+        priority: 3,
+        priorityLabel: 'P3 รอคิว',
+        name: 'KIKO Milano - Asset VDO เมคอัพ',
+        brand: 'KIKO Milano (คุณแป้ง)',
+        status: 'รอพัสดุ',
+        channel: 'Brand Asset',
+        budget: 1000,
+        filmingDate: 'รอสินค้า',
+        draftDate: '2 พ.ย. (เลยกำหนดเดิม)',
+        postDate: 'พ.ย. เป็นต้นไป',
+        tomorrow: false,
+        urgent: true,
+        urgentReason: 'กำหนด Draft เดิม 2 พ.ย. เลยแล้ว ต้องตามพัสดุกับคุณแป้ง',
+        unbooked: false,
+        waitingParcel: true,
+        url: 'https://app.notion.com/p/4166e8aac17c8181b89fef391fb223ac'
+      },
+      {
+        id: 'babalah',
+        priority: 3,
+        priorityLabel: 'P3 รอรับเงิน',
+        name: 'BABALAH - Magic Blue Powder 14g',
+        brand: 'BABALAH (คุณนน / เนย)',
+        status: 'รับเงิน',
+        channel: 'phitccc',
+        budget: 500,
+        filmingDate: 'ถ่าย+ตัดเสร็จ 16 พ.ย.',
+        draftDate: 'ไม่ต้องส่ง',
+        postDate: 'โพสต์แล้ว 16 พ.ย. 2026',
+        tomorrow: false,
+        urgent: false,
+        urgentReason: '',
+        unbooked: false,
+        waitingParcel: false,
+        url: 'https://app.notion.com/p/4166e8aac17c81b38f93c1a019ad323a'
+      }
+    ];
+
+    const TOMORROW_TODOS = [
+      {
+        id: 'todo-merrezca',
+        time: '13:00–16:00',
+        priority: 'P1',
+        title: 'ถ่ายทำ: Merrezca Eye See You Eyeshadow Palette',
+        detail: 'ถ่าย Inside (#01, #02 · ช่อง phitccc) และทักแจ้งคุณมี่เลื่อนส่ง Draft 1',
+        url: 'https://app.notion.com/p/4166e8aac17c8145adc2c80f693a5702'
+      },
+      {
+        id: 'todo-getandglow',
+        time: 'เร่งด่วน (ค้างส่ง)',
+        priority: 'P1',
+        title: 'ตัดต่อ + ส่ง Draft 1: GetandGlow คุชชั่น',
+        detail: 'ค้างจากแผน 16 พ.ย. — เร่งตัดต่อและส่ง Draft 1 ให้คุณแอนวันนี้',
+        url: 'https://app.notion.com/p/4166e8aac17c8181b718cff436d52637'
+      },
+      {
+        id: 'todo-misslens',
+        time: 'งานวิเคราะห์',
+        priority: 'P2',
+        title: 'วิเคราะห์คลิปที่ถ่ายเพิ่ม 1 คลิป: MissLens (3/10 คลิป)',
+        detail: 'เช็กว่าคลิปที่ถ่ายเพิ่มใช้ได้ไหม และวางคิวถ่ายคลิปที่เหลือ',
+        url: 'https://app.notion.com/p/4166e8aac17c8158925fcfa2cce0a0a1'
+      },
+      {
+        id: 'todo-book',
+        time: 'วางแผนคิว',
+        priority: 'P2',
+        title: 'ลงวันถ่ายทำ: ODBO (Draft 23 พ.ย.) / Kate / Glad2Glow / Skintific',
+        detail: 'เลือกวันว่างสัปดาห์นี้ (พุธ 18 – ศุกร์ 20 พ.ย.) เพื่อ Book ลงปฏิทิน',
+        url: 'https://app.notion.com/p/4166e8aac17c813aab44ea6e2b2e6488'
+      }
+    ];
+
+    const STORAGE_KEY = 'thursday_studio_todo_2026_11_17';
+    let todoState = {};
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) todoState = JSON.parse(saved);
+    } catch (e) {
+      todoState = {};
+    }
+
+    let activeFilter = 'all';
+    let searchTerm = '';
+
+    function saveTodoState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(todoState));
+      } catch (e) {}
+    }
+
+    function renderTodos() {
+      const container = document.getElementById('tomorrow-todo-list');
+      let doneCount = 0;
+      container.innerHTML = TOMORROW_TODOS.map((item) => {
+        const checked = Boolean(todoState[item.id]);
+        if (checked) doneCount++;
+        return `
+          <label class="flex items-start gap-3 p-3.5 rounded-xl border ${checked ? 'bg-slate-50 border-slate-200 opacity-75' : 'bg-white border-slate-200 hover:border-indigo-300'} cursor-pointer transition">
+            <input type="checkbox" data-todo-id="${item.id}" ${checked ? 'checked' : ''}
+                   class="mt-1 h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+            <div class="flex-1 min-w-0">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="px-2 py-0.5 rounded-md text-xs font-bold ${item.priority === 'P1' ? 'bg-rose-100 text-rose-700' : 'bg-amber-100 text-amber-800'}">${item.priority}</span>
+                <span class="text-xs font-semibold text-indigo-600">${item.time}</span>
+                <a href="${item.url}" target="_blank" rel="noopener" class="text-sm font-semibold ${checked ? 'line-through text-slate-500' : 'text-slate-900'} hover:text-indigo-600 underline-offset-2 hover:underline">
+                  ${item.title}
+                </a>
+              </div>
+              <p class="text-xs text-slate-500 mt-1">${item.detail}</p>
+            </div>
+          </label>
+        `;
+      }).join('');
+
+      const pct = Math.round((doneCount / TOMORROW_TODOS.length) * 100);
+      document.getElementById('todo-progress-bar').style.width = `${pct}%`;
+      document.getElementById('kpi-todo-progress').textContent = `เสร็จแล้ว ${doneCount} / ${TOMORROW_TODOS.length} รายการ`;
+
+      container.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+        cb.addEventListener('change', (e) => {
+          const id = e.target.getAttribute('data-todo-id');
+          todoState[id] = e.target.checked;
+          saveTodoState();
+          renderTodos();
+        });
+      });
+    }
+
+    function renderHighlights() {
+      const urgentJobs = JOBS.filter((j) => j.urgent);
+      const unbookedJobs = JOBS.filter((j) => j.unbooked);
+
+      document.getElementById('kpi-urgent').textContent = `${urgentJobs.length} งาน`;
+      document.getElementById('kpi-unbooked').textContent = `${unbookedJobs.length} งาน`;
+      document.getElementById('urgent-badge').textContent = urgentJobs.length;
+      document.getElementById('unbooked-badge').textContent = unbookedJobs.length;
+
+      document.getElementById('urgent-list').innerHTML = urgentJobs.map((j) => `
+        <div class="p-3 rounded-xl bg-rose-50/70 border border-rose-100">
+          <div class="flex items-center justify-between gap-2">
+            <a href="${j.url}" target="_blank" rel="noopener" class="text-sm font-semibold text-rose-900 hover:underline">${j.name}</a>
+            <span class="shrink-0 text-xs font-semibold px-2 py-0.5 rounded-full bg-white text-rose-700 border border-rose-200">${j.status}</span>
+          </div>
+          <p class="text-xs text-rose-700 mt-1">${j.urgentReason}</p>
+        </div>
+      `).join('');
+
+      document.getElementById('unbooked-list').innerHTML = unbookedJobs.map((j) => `
+        <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-100">
+          <div class="flex items-center justify-between gap-2">
+            <a href="${j.url}" target="_blank" rel="noopener" class="text-sm font-semibold text-amber-950 hover:underline">${j.name}</a>
+            <span class="shrink-0 text-xs font-medium text-amber-800">${j.budget > 0 ? j.budget.toLocaleString() + ' ฿' : 'Barter'}</span>
+          </div>
+          <p class="text-xs text-amber-800 mt-1">Draft 1: ${j.draftDate} · โพสต์: ${j.postDate}</p>
+        </div>
+      `).join('');
+    }
+
+    function getStatusBadge(status) {
+      if (status === 'ถ่ายทำ') return 'bg-blue-50 text-blue-700 border-blue-200';
+      if (status === 'ตัดต่อ') return 'bg-purple-50 text-purple-700 border-purple-200';
+      if (status === 'ส่งตรวจ') return 'bg-pink-50 text-pink-700 border-pink-200';
+      if (status === 'รับเงิน') return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+      return 'bg-amber-50 text-amber-800 border-amber-200';
+    }
+
+    function getPriorityBadge(p) {
+      if (p === 1) return 'bg-rose-100 text-rose-800';
+      if (p === 2) return 'bg-amber-100 text-amber-800';
+      return 'bg-slate-100 text-slate-700';
+    }
+
+    function renderTable() {
+      const q = searchTerm.trim().toLowerCase();
+      const filtered = JOBS.filter((j) => {
+        if (activeFilter === 'tomorrow' && !j.tomorrow) return false;
+        if (activeFilter === 'urgent' && !j.urgent) return false;
+        if (activeFilter === 'unbooked' && !j.unbooked) return false;
+        if (activeFilter === 'waiting' && !j.waitingParcel) return false;
+        if (q) {
+          const hay = `${j.name} ${j.brand} ${j.channel} ${j.status}`.toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+
+      const tbody = document.getElementById('jobs-tbody');
+      const empty = document.getElementById('empty-state');
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '';
+        empty.classList.remove('hidden');
+        return;
+      }
+      empty.classList.add('hidden');
+
+      tbody.innerHTML = filtered.map((j) => `
+        <tr class="hover:bg-slate-50/80 transition ${j.urgent ? 'bg-rose-50/20' : ''}">
+          <td class="py-3 px-3 whitespace-nowrap">
+            <span class="inline-flex px-2 py-0.5 rounded-md text-xs font-bold ${getPriorityBadge(j.priority)}">${j.priorityLabel}</span>
+          </td>
+          <td class="py-3 px-3 min-w-[210px]">
+            <a href="${j.url}" target="_blank" rel="noopener" class="font-semibold text-slate-900 hover:text-indigo-600 hover:underline">${j.name}</a>
+            <div class="text-xs text-slate-500 mt-0.5">${j.brand} · <span class="font-medium text-slate-700">${j.channel}</span></div>
+          </td>
+          <td class="py-3 px-3 whitespace-nowrap">
+            <span class="inline-flex px-2.5 py-0.5 rounded-full text-xs font-semibold border ${getStatusBadge(j.status)}">${j.status}</span>
+          </td>
+          <td class="py-3 px-3 whitespace-nowrap">
+            ${j.unbooked
+              ? `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold bg-amber-100 text-amber-800">⚠️ ${j.filmingDate}</span>`
+              : `<span class="text-xs font-medium text-slate-700">${j.filmingDate}</span>`}
+          </td>
+          <td class="py-3 px-3 whitespace-nowrap">
+            ${j.urgent
+              ? `<span class="text-xs font-semibold text-rose-700">${j.draftDate}</span>`
+              : `<span class="text-xs text-slate-600">${j.draftDate}</span>`}
+          </td>
+          <td class="py-3 px-3 whitespace-nowrap text-xs text-slate-600">${j.postDate}</td>
+          <td class="py-3 px-3 whitespace-nowrap text-right font-semibold text-slate-900">
+            ${j.budget > 0 ? j.budget.toLocaleString() + ' ฿' : 'Barter'}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    document.querySelectorAll('.filter-tab').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        activeFilter = btn.getAttribute('data-filter');
+        document.querySelectorAll('.filter-tab').forEach((b) => {
+          b.className = 'filter-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition';
+        });
+        btn.className = 'filter-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-white transition';
+        renderTable();
+      });
+    });
+
+    document.getElementById('search-input').addEventListener('input', (e) => {
+      searchTerm = e.target.value;
+      renderTable();
+    });
+
+    document.getElementById('reset-todos-btn').addEventListener('click', () => {
+      todoState = {};
+      saveTodoState();
+      renderTodos();
+    });
+
+    renderTodos();
+    renderHighlights();
+    renderTable();
+  </script>
+</body>
+</html>
