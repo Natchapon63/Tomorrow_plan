@@ -30,7 +30,8 @@ def test_endpoint(url):
         "jobName": "CanMake - Muchi Puru Tint",
         "notionPageId": "4166e8aac17c813692b0f385e97bc43f",
         "newStatus": "ส่งตรวจ",
-        "note": "ทดสอบระบบ Web Sync อัตโนมัติจาก Test Script",
+        "subStatus": "ส่ง Draft 1 (รอตรวจ)",
+        "note": "ทดสอบระบบ Web Sync พร้อม Sub Status อัตโนมัติจาก Test Script",
         "timestamp": datetime.now().isoformat()
     }
 

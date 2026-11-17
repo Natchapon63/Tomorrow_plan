@@ -5,7 +5,7 @@
  * Target Google Sheet: Influencer Daily Updates (Web Sync)
  * Spreadsheet ID: 1gTRC7_DmnW8ehz-3-zHsQqZRQrc6qc6iRxOjmLA6Wsw
  * Tab: Updates
- * Columns: Timestamp | Job Name | Notion Page ID | New Status | Note | Processed
+ * Columns: Timestamp | Job Name | Notion Page ID | New Status | Sub Status | Note | Processed
  */
 
 var SPREADSHEET_ID = "1gTRC7_DmnW8ehz-3-zHsQqZRQrc6qc6iRxOjmLA6Wsw";
@@ -33,8 +33,8 @@ function doPost(e) {
     // If tab doesn't exist, create it with standard headers
     if (!sheet) {
       sheet = ss.insertSheet(TAB_NAME);
-      sheet.appendRow(["Timestamp", "Job Name", "Notion Page ID", "New Status", "Note", "Processed"]);
-      sheet.getRange("A1:F1").setFontWeight("bold");
+      sheet.appendRow(["Timestamp", "Job Name", "Notion Page ID", "New Status", "Sub Status", "Note", "Processed"]);
+      sheet.getRange("A1:G1").setFontWeight("bold");
     }
 
     var payload = {};
@@ -54,15 +54,17 @@ function doPost(e) {
     var jobName = payload.jobName || "";
     var notionPageId = payload.notionPageId || "";
     var newStatus = payload.newStatus || "";
+    var subStatus = payload.subStatus || "";
     var note = payload.note || "";
     var processed = false; // Always FALSE for new influencer updates
 
-    // Append new row into Updates tab
+    // Append new row into Updates tab (Columns A to G)
     sheet.appendRow([
       timestamp,
       jobName,
       notionPageId,
       newStatus,
+      subStatus,
       note,
       processed
     ]);
@@ -75,6 +77,7 @@ function doPost(e) {
         jobName: jobName,
         notionPageId: notionPageId,
         newStatus: newStatus,
+        subStatus: subStatus,
         note: note,
         processed: processed
       }

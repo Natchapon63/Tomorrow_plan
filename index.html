@@ -56,13 +56,13 @@
         </span>
       </div>
 
-      <form id="update-form" class="grid grid-cols-1 md:grid-cols-12 gap-3">
-        <div class="md:col-span-4">
+      <form id="update-form" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3">
+        <div class="sm:col-span-2 lg:col-span-3">
           <label for="update-job" class="block text-xs font-semibold text-slate-700 mb-1">ชื่องาน / แบรนด์</label>
           <select id="update-job" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"></select>
         </div>
-        <div class="md:col-span-3">
-          <label for="update-status" class="block text-xs font-semibold text-slate-700 mb-1">สถานะใหม่</label>
+        <div class="sm:col-span-1 lg:col-span-2">
+          <label for="update-status" class="block text-xs font-semibold text-slate-700 mb-1">สถานะหลัก</label>
           <select id="update-status" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
             <option value="รอพัสดุ">รอพัสดุ</option>
             <option value="ตรวจ Script">ตรวจ Script</option>
@@ -74,12 +74,28 @@
             <option value="จบงาน">จบงาน (รับเงิน &amp; ตรวจสลิปแล้ว)</option>
           </select>
         </div>
-        <div class="md:col-span-3">
-          <label for="update-note" class="block text-xs font-semibold text-slate-700 mb-1">หมายเหตุ / รายละเอียดเพิ่มเติม</label>
-          <input id="update-note" type="text" placeholder="เช่น ถ่ายเสร็จแล้ว, รับเงิน 2,500 บาท..."
+        <div class="sm:col-span-1 lg:col-span-3">
+          <label for="update-sub-status" class="block text-xs font-semibold text-slate-700 mb-1">สถานะย่อย (Sub Status)</label>
+          <select id="update-sub-status" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <option value="">(ไม่มี / ตามสถานะหลัก)</option>
+            <option value="ส่ง Draft 1 (รอตรวจ)">ส่ง Draft 1 (รอตรวจ)</option>
+            <option value="แบรนด์ขอแก้ (รอบ 1)">แบรนด์ขอแก้ (รอบ 1)</option>
+            <option value="กำลังแก้ Draft (รอบ 1)">กำลังแก้ Draft (รอบ 1)</option>
+            <option value="แบรนด์ขอแก้ (รอบ 2)">แบรนด์ขอแก้ (รอบ 2)</option>
+            <option value="กำลังแก้ Draft (รอบ 2)">กำลังแก้ Draft (รอบ 2)</option>
+            <option value="แบรนด์ขอแก้ (รอบ 3)">แบรนด์ขอแก้ (รอบ 3)</option>
+            <option value="กำลังแก้ Draft (รอบ 3)">กำลังแก้ Draft (รอบ 3)</option>
+            <option value="ถ่ายเพิ่ม">ถ่ายเพิ่ม</option>
+            <option value="Draft ผ่านแล้ว (รอโพสต์)">Draft ผ่านแล้ว (รอโพสต์)</option>
+            <option value="รอเอกสาร/สลิปภาษี">รอเอกสาร/สลิปภาษี</option>
+          </select>
+        </div>
+        <div class="sm:col-span-2 lg:col-span-2">
+          <label for="update-note" class="block text-xs font-semibold text-slate-700 mb-1">หมายเหตุเพิ่มเติม</label>
+          <input id="update-note" type="text" placeholder="เช่น แก้ช่วงวินาทีที่ 15..."
                  class="w-full px-3 py-2 text-sm rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
         </div>
-        <div class="md:col-span-2 flex items-end">
+        <div class="sm:col-span-2 lg:col-span-2 flex items-end">
           <button type="submit" id="submit-update-btn"
                   class="w-full px-4 py-2 rounded-xl bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 transition">
             ส่งอัปเดต
@@ -586,6 +602,7 @@
             <span class="font-semibold text-slate-900">${u.jobName}</span>
             <span class="mx-1 text-slate-400">→</span>
             <span class="font-semibold text-indigo-700">${u.newStatus}</span>
+            ${u.subStatus ? `<span class="ml-1 px-1.5 py-0.5 rounded text-[11px] bg-indigo-50 text-indigo-800 font-medium border border-indigo-100">(${u.subStatus})</span>` : ''}
             ${u.note ? `<span class="text-slate-500">· ${u.note}</span>` : ''}
           </div>
           <span class="text-slate-400">${u.synced ? 'ส่งเข้า Sheet แล้ว' : 'บันทึกในเครื่อง (รอ Endpoint)'}</span>
@@ -597,6 +614,7 @@
       e.preventDefault();
       const jobId = document.getElementById('update-job').value;
       const newStatus = document.getElementById('update-status').value;
+      const subStatus = document.getElementById('update-sub-status').value;
       const note = document.getElementById('update-note').value.trim();
       const job = JOBS.find((j) => j.id === jobId);
       const feedback = document.getElementById('update-feedback');
@@ -605,6 +623,7 @@
         jobName: job ? job.name : jobId,
         notionPageId: jobId,
         newStatus,
+        subStatus,
         note,
         timestamp: new Date().toISOString()
       };
@@ -652,15 +671,17 @@
       pendingUpdates.unshift({ ...payload, synced });
       savePendingUpdates();
       renderPendingUpdates();
+      document.getElementById('update-sub-status').value = '';
       document.getElementById('update-note').value = '';
 
+      const statusDisplay = payload.subStatus ? `${payload.newStatus} (${payload.subStatus})` : payload.newStatus;
       feedback.classList.remove('hidden');
       if (synced) {
         feedback.className = 'text-xs font-medium px-3.5 py-2.5 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200';
-        feedback.textContent = `ส่งอัปเดต "${payload.jobName} → ${newStatus}" เข้า Google Sheet เรียบร้อยแล้ว ระบบจะซิงก์ลง Notion ตอน 00:00 น.`;
+        feedback.textContent = `ส่งอัปเดต "${payload.jobName} → ${statusDisplay}" เข้า Google Sheet เรียบร้อยแล้ว ระบบจะซิงก์ลง Notion ตอน 00:00 น.`;
       } else {
         feedback.className = 'text-xs font-medium px-3.5 py-2.5 rounded-xl bg-amber-50 text-amber-800 border border-amber-200';
-        feedback.textContent = `บันทึก "${payload.jobName} → ${newStatus}" ในเครื่องแล้ว (รอตั้งค่า UPDATE_ENDPOINT_URL เพื่อส่งเข้า Google Sheet อัตโนมัติ)`;
+        feedback.textContent = `บันทึก "${payload.jobName} → ${statusDisplay}" ในเครื่องแล้ว (รอตั้งค่า UPDATE_ENDPOINT_URL เพื่อส่งเข้า Google Sheet อัตโนมัติ)`;
       }
     });
 
