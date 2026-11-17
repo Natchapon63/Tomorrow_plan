@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>แผนงานรายวัน &amp; Influencer Update — Thursday Studio</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -128,9 +129,9 @@
         <p class="text-xs text-amber-700 mt-1">ของถึงแล้วแต่ยังไม่มีวันถ่าย</p>
       </div>
       <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
-        <p class="text-xs font-medium text-slate-500" id="kpi-total-title">มูลค่างานทั้งหมด (12 งาน)</p>
-        <p class="text-2xl font-bold text-emerald-600 mt-1" id="kpi-total-amount">24,500 ฿</p>
-        <p class="text-xs text-slate-500 mt-1" id="kpi-total-sub">ส่งตรวจ 1 · รอรับเงิน 1</p>
+        <p class="text-xs font-medium text-slate-500" id="kpi-total-title">มูลค่างานทั้งหมด (16 งาน)</p>
+        <p class="text-2xl font-bold text-emerald-600 mt-1" id="kpi-total-amount">36,000 ฿</p>
+        <p class="text-xs text-slate-500 mt-1" id="kpi-total-sub">Active 12 · ดีลงาน 4</p>
       </div>
     </section>
 
@@ -174,6 +175,37 @@
       </section>
     </div>
 
+
+    <!-- Revenue Analytics (Pie Charts) -->
+    <section class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-5">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900">💰 สรุปรายได้ (Revenue Analytics)</h2>
+          <p class="text-xs text-slate-500 mt-0.5">คำนวณอัตโนมัติจากข้อมูลงานทั้งหมด 16 งาน</p>
+        </div>
+        <div class="flex flex-wrap gap-2 text-xs font-semibold">
+          <span class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200" id="rev-paid-pill">รับเงินแล้ว: 0 ฿</span>
+          <span class="px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200" id="rev-waiting-pill">รอรับเงิน: 0 ฿</span>
+          <span class="px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200" id="rev-inprogress-pill">ยังไม่เสร็จงาน: 0 ฿</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+          <h3 class="text-sm font-bold text-slate-800 mb-3">🥧 รายได้แยกตามแบรนด์</h3>
+          <div class="relative h-72">
+            <canvas id="brandRevenueChart"></canvas>
+          </div>
+        </div>
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+          <h3 class="text-sm font-bold text-slate-800 mb-3">📊 รายได้แยกตามสถานะ (รับเงินแล้ว / รอรับเงิน / ยังไม่เสร็จงาน)</h3>
+          <div class="relative h-72">
+            <canvas id="statusRevenueChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Master 12-Job Priority & Draft Table -->
     <section class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-4">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
@@ -188,7 +220,7 @@
       </div>
 
       <div class="flex flex-wrap gap-2" id="filter-tabs">
-        <button type="button" data-filter="all" class="filter-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-white transition">ทั้งหมด (12)</button>
+        <button type="button" data-filter="all" class="filter-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-white transition">ทั้งหมด (16)</button>
         <button type="button" data-filter="tomorrow" class="filter-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">ทำวันนี้ (4)</button>
         <button type="button" data-filter="urgent" class="filter-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-rose-50 text-rose-700 hover:bg-rose-100 transition">🚨 ใกล้ส่ง/เลยกำหนด</button>
         <button type="button" data-filter="unbooked" class="filter-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-amber-50 text-amber-800 hover:bg-amber-100 transition">📅 ยังไม่ Book วันถ่าย</button>
@@ -710,10 +742,15 @@
     }
 
     function getStatusBadge(status) {
+      if (status === 'ดีลงาน') return 'bg-cyan-50 text-cyan-700 border-cyan-200';
+      if (status === 'รอพัสดุ') return 'bg-amber-50 text-amber-800 border-amber-200';
+      if (status === 'ตรวจ Script') return 'bg-orange-50 text-orange-700 border-orange-200';
       if (status === 'ถ่ายทำ') return 'bg-blue-50 text-blue-700 border-blue-200';
       if (status === 'ตัดต่อ') return 'bg-purple-50 text-purple-700 border-purple-200';
       if (status === 'ส่งตรวจ') return 'bg-pink-50 text-pink-700 border-pink-200';
+      if (status === 'โพสต์งาน') return 'bg-indigo-50 text-indigo-700 border-indigo-200';
       if (status === 'รับเงิน') return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+      if (status === 'จบงาน') return 'bg-slate-100 text-slate-700 border-slate-300';
       return 'bg-amber-50 text-amber-800 border-amber-200';
     }
 
@@ -785,6 +822,7 @@
         });
         btn.className = 'filter-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-white transition';
         renderTable();
+    renderRevenueCharts();
       });
     });
 
@@ -799,10 +837,91 @@
       renderTodos();
     });
 
+
+    let brandChartInstance = null;
+    let statusChartInstance = null;
+
+    function renderRevenueCharts() {
+      if (typeof Chart === 'undefined') return;
+      const brandCanvas = document.getElementById('brandRevenueChart');
+      const statusCanvas = document.getElementById('statusRevenueChart');
+      if (!brandCanvas || !statusCanvas) return;
+
+      if (brandChartInstance) {
+        brandChartInstance.destroy();
+        brandChartInstance = null;
+      }
+      if (statusChartInstance) {
+        statusChartInstance.destroy();
+        statusChartInstance = null;
+      }
+
+      const paidTotal = JOBS.filter((j) => j.status.startsWith('จบงาน')).reduce((sum, j) => sum + (j.budget || 0), 0);
+      const waitingPayTotal = JOBS.filter((j) => j.status.startsWith('รับเงิน')).reduce((sum, j) => sum + (j.budget || 0), 0);
+      const unfinishedTotal = JOBS.filter((j) => !j.status.startsWith('จบงาน') && !j.status.startsWith('รับเงิน')).reduce((sum, j) => sum + (j.budget || 0), 0);
+
+      const paidPill = document.getElementById('rev-paid-pill');
+      const waitingPill = document.getElementById('rev-waiting-pill');
+      const inprogressPill = document.getElementById('rev-inprogress-pill');
+      if (paidPill) paidPill.textContent = `รับเงินแล้ว: ${paidTotal.toLocaleString()} ฿`;
+      if (waitingPill) waitingPill.textContent = `รอรับเงิน: ${waitingPayTotal.toLocaleString()} ฿`;
+      if (inprogressPill) inprogressPill.textContent = `ยังไม่เสร็จงาน: ${unfinishedTotal.toLocaleString()} ฿`;
+
+      const brandJobs = JOBS.filter((j) => (j.budget || 0) > 0);
+      const brandLabels = brandJobs.map((j) => j.name.split(' - ')[0]);
+      const brandData = brandJobs.map((j) => j.budget);
+      const brandColors = [
+        '#6366f1', '#ec4899', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6',
+        '#ef4444', '#14b8a6', '#f97316', '#84cc16', '#06b6d4', '#a855f7',
+        '#eab308', '#64748b'
+      ];
+
+      brandChartInstance = new Chart(brandCanvas, {
+        type: 'pie',
+        data: {
+          labels: brandLabels,
+          datasets: [{
+            data: brandData,
+            backgroundColor: brandColors.slice(0, brandLabels.length),
+            borderWidth: 2,
+            borderColor: '#ffffff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'right', labels: { boxWidth: 12, font: { size: 11 } } }
+          }
+        }
+      });
+
+      statusChartInstance = new Chart(statusCanvas, {
+        type: 'doughnut',
+        data: {
+          labels: ['รับเงินแล้ว (จบงาน)', 'รอรับเงิน', 'ยังไม่เสร็จงาน'],
+          datasets: [{
+            data: [paidTotal, waitingPayTotal, unfinishedTotal],
+            backgroundColor: ['#10b981', '#f59e0b', '#6366f1'],
+            borderWidth: 2,
+            borderColor: '#ffffff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 12 } } }
+          }
+        }
+      });
+    }
+
     initUpdateForm();
     renderTodos();
     renderHighlights();
     renderTable();
+    renderRevenueCharts();
   </script>
 </body>
 </html>

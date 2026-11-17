@@ -171,7 +171,10 @@ def process_jobs(pages):
         tomorrow = False
 
         # Status specific presets
-        if status == 'รับเงิน':
+        if status == 'ดีลงาน':
+            priority = 3
+            priority_label = 'P3 ดีลงาน'
+        elif status == 'รับเงิน':
             priority = 3
             priority_label = 'P3 รอรับเงิน'
         elif status == 'ส่งตรวจ':
@@ -335,6 +338,24 @@ def update_index_html(html_path, jobs, todos):
         f'<h1 class="text-xl sm:text-2xl font-bold text-slate-900">แผนงาน{today_thai} &amp; ระบบส่งอัปเดตงานอินฟลู</h1>',
         content
     )
+
+    # Update job count in Revenue Analytics subtitle
+    content = re.sub(
+        r'คำนวณอัตโนมัติจากข้อมูลงานทั้งหมด \d+ งาน',
+        f'คำนวณอัตโนมัติจากข้อมูลงานทั้งหมด {len(jobs)} งาน',
+        content
+    )
+
+    # Ensure Chart.js is present in <head>
+    if 'cdn.jsdelivr.net/npm/chart.js' not in content:
+        content = content.replace(
+            '<script src="https://cdn.tailwindcss.com/3.4.17"></script>',
+            '<script src="https://cdn.tailwindcss.com/3.4.17"></script>\n  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>'
+        )
+
+    # Ensure renderRevenueCharts(); is called on initial load
+    if 'renderRevenueCharts();' not in content and 'function renderRevenueCharts()' in content:
+        content = content.replace('renderTable();', 'renderTable();\n    renderRevenueCharts();')
 
     with open(html_path, 'w', encoding='utf-8') as f:
         f.write(content)
