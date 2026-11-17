@@ -1,0 +1,44 @@
+name: Daily Notion Sync & GitHub Pages Deploy
+
+on:
+  schedule:
+    # Runs at 02:00 ICT every day (ICT = UTC+7 -> 19:00 UTC)
+    - cron: '0 19 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  sync-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Sync latest data from Notion
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_JOB_TRACKER_DB_ID: ${{ secrets.NOTION_JOB_TRACKER_DB_ID || '1fa2a0da27c54a50b0eb402d9da913ef' }}
+          NOTION_CALENDAR_DB_ID: ${{ secrets.NOTION_CALENDAR_DB_ID || '4196e8aa-c17c-8163-b4b1-c22a12756b40' }}
+          NOTION_DAILY_NOTES_ID: ${{ secrets.NOTION_DAILY_NOTES_ID || '4196e8aa-c17c-81a9-842e-dae564ad1152' }}
+        run: |
+          python scripts/sync_notion.py
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          if [ -n "$(git status --porcelain index.html)" ]; then
+            git add index.html
+            git commit -m "chore(auto-deploy): update index.html from Notion at 02:00 ICT [skip ci]"
+            git push
+            echo "Successfully committed and pushed updated index.html to main branch."
+          else
+            echo "No changes detected in index.html. Skipping commit."
+          fi

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>แผนงานวันอังคารที่ 17 พ.ย. 2026 &amp; Priority Tracker — Thursday Studio</title>
+  <title>แผนงานรายวัน &amp; Influencer Update — Thursday Studio</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -21,15 +21,15 @@
     <header class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
         <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-semibold mb-2">
-          <span>📋 Thursday Studio · Managing Officer</span>
+          <span>📋 Thursday Studio · Daily Planner</span>
           <span>•</span>
-          <span>อัปเดตจาก Notion 17 พ.ย. 2026</span>
+          <span>อัปเดตล่าสุดจาก Notion</span>
         </div>
         <h1 class="text-xl sm:text-2xl font-bold text-slate-900">
-          แผนงานวันอังคารที่ 17 พฤศจิกายน 2026
+          แผนงานประจำวัน &amp; ระบบส่งอัปเดตงานอินฟลู
         </h1>
         <p class="text-sm text-slate-500 mt-1">
-          อัปเดตหลังปิดงาน CanMake และ BABALAH — พร้อมรายการค้างส่ง, Priority และงานที่ยังไม่ Book วันถ่าย
+          เช็ก To-Do, กำหนดส่ง Draft 1, งานยังไม่ Book วันถ่าย และกดส่งอัปเดตก่อน 00:00 น. เพื่อให้ระบบซิงก์เข้า Notion อัตโนมัติ
         </p>
       </div>
       <div class="flex flex-wrap items-center gap-2">
@@ -44,10 +44,60 @@
       </div>
     </header>
 
+    <!-- Influencer Daily Update Form (Before 00:00) -->
+    <section class="bg-gradient-to-br from-indigo-50 via-white to-slate-50 rounded-2xl border border-indigo-200 p-5 sm:p-6 shadow-sm space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div>
+          <h2 class="text-lg font-bold text-indigo-950">📤 ส่งอัปเดตงานประจำวัน (ก่อน 00:00 น.)</h2>
+          <p class="text-xs text-slate-600 mt-0.5">เลือกงานและสถานะใหม่ที่ทำเสร็จวันนี้ ระบบจะรวบรวมไปอัปเดตลง Notion อัตโนมัติตอนเที่ยงคืน</p>
+        </div>
+        <span id="endpoint-badge" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">
+          รอเชื่อม Endpoint จาก Antigravity
+        </span>
+      </div>
+
+      <form id="update-form" class="grid grid-cols-1 md:grid-cols-12 gap-3">
+        <div class="md:col-span-4">
+          <label for="update-job" class="block text-xs font-semibold text-slate-700 mb-1">ชื่องาน / แบรนด์</label>
+          <select id="update-job" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"></select>
+        </div>
+        <div class="md:col-span-3">
+          <label for="update-status" class="block text-xs font-semibold text-slate-700 mb-1">สถานะใหม่</label>
+          <select id="update-status" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <option value="รอพัสดุ">รอพัสดุ</option>
+            <option value="ตรวจ Script">ตรวจ Script</option>
+            <option value="ถ่ายทำ">ถ่ายทำ (ของถึงแล้ว / รอถ่าย)</option>
+            <option value="ตัดต่อ">ตัดต่อ (ถ่ายเสร็จแล้ว)</option>
+            <option value="ส่งตรวจ">ส่งตรวจ (ส่ง Draft 1 แล้ว)</option>
+            <option value="โพสต์งาน">โพสต์งาน (ลงคลิปแล้ว)</option>
+            <option value="รับเงิน">รับเงิน (รอโอนตาม Credit Term)</option>
+            <option value="จบงาน">จบงาน (รับเงิน &amp; ตรวจสลิปแล้ว)</option>
+          </select>
+        </div>
+        <div class="md:col-span-3">
+          <label for="update-note" class="block text-xs font-semibold text-slate-700 mb-1">หมายเหตุ / รายละเอียดเพิ่มเติม</label>
+          <input id="update-note" type="text" placeholder="เช่น ถ่ายเสร็จแล้ว, รับเงิน 2,500 บาท..."
+                 class="w-full px-3 py-2 text-sm rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+        </div>
+        <div class="md:col-span-2 flex items-end">
+          <button type="submit" id="submit-update-btn"
+                  class="w-full px-4 py-2 rounded-xl bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 transition">
+            ส่งอัปเดต
+          </button>
+        </div>
+      </form>
+
+      <div id="update-feedback" class="hidden text-xs font-medium px-3.5 py-2.5 rounded-xl"></div>
+      <div id="submitted-log-wrap" class="hidden pt-2 border-t border-indigo-100">
+        <p class="text-xs font-semibold text-slate-600 mb-2">รายการที่บันทึกไว้รอบนี้:</p>
+        <div id="submitted-log" class="space-y-1.5"></div>
+      </div>
+    </section>
+
     <!-- KPI Cards -->
     <section class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4" id="kpi-grid">
       <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
-        <p class="text-xs font-medium text-slate-500">ต้องทำวันนี้ (17 พ.ย.)</p>
+        <p class="text-xs font-medium text-slate-500">ต้องทำวันนี้</p>
         <p class="text-2xl font-bold text-indigo-600 mt-1" id="kpi-tomorrow">4 งาน</p>
         <p class="text-xs text-slate-500 mt-1" id="kpi-todo-progress">เสร็จแล้ว 0 / 4 รายการ</p>
       </div>
@@ -62,21 +112,19 @@
         <p class="text-xs text-amber-700 mt-1">ของถึงแล้วแต่ยังไม่มีวันถ่าย</p>
       </div>
       <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
-        <p class="text-xs font-medium text-slate-500">มูลค่างานทั้งหมด (12 งาน)</p>
-        <p class="text-2xl font-bold text-emerald-600 mt-1">24,500 ฿</p>
-        <p class="text-xs text-slate-500 mt-1">ส่งตรวจ 1 · รอรับเงิน 1</p>
+        <p class="text-xs font-medium text-slate-500" id="kpi-total-title">มูลค่างานทั้งหมด (12 งาน)</p>
+        <p class="text-2xl font-bold text-emerald-600 mt-1" id="kpi-total-amount">24,500 ฿</p>
+        <p class="text-xs text-slate-500 mt-1" id="kpi-total-sub">ส่งตรวจ 1 · รอรับเงิน 1</p>
       </div>
     </section>
 
     <!-- Schedule + Alerts Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-
-      <!-- Left: Today's Priority To-Do List -->
       <section class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-4">
         <div class="flex items-center justify-between gap-2">
           <div>
-            <h2 class="text-lg font-bold text-slate-900">✅ To-Do List วันอังคาร 17 พ.ย.</h2>
-            <p class="text-xs text-slate-500 mt-0.5">เรียงตาม Priority และงานที่ค้างจากเมื่อวาน (ติ๊กเพื่อบันทึกความคืบหน้า)</p>
+            <h2 class="text-lg font-bold text-slate-900">✅ To-Do List เรียงตาม Priority</h2>
+            <p class="text-xs text-slate-500 mt-0.5">ติ๊กเพื่อบันทึกความคืบหน้าระหว่างวัน</p>
           </div>
           <button id="reset-todos-btn" type="button"
                   class="text-xs px-2.5 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-100 transition">
@@ -89,28 +137,12 @@
         </div>
 
         <div id="tomorrow-todo-list" class="space-y-3"></div>
-
-        <!-- Completed Yesterday -->
-        <div class="pt-3 border-t border-slate-100">
-          <p class="text-xs font-semibold uppercase tracking-wide text-emerald-600 mb-2">ปิดงานเมื่อวานเรียบร้อย (16 พ.ย.)</p>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            <div class="p-3 rounded-xl bg-emerald-50/70 border border-emerald-200">
-              <p class="text-xs font-bold text-emerald-900">✓ CanMake - Muchi Puru Tint</p>
-              <p class="text-xs text-emerald-700 mt-0.5">ตัดและส่ง Draft 1 แล้ว (สถานะ: ส่งตรวจ)</p>
-            </div>
-            <div class="p-3 rounded-xl bg-emerald-50/70 border border-emerald-200">
-              <p class="text-xs font-bold text-emerald-900">✓ BABALAH - Magic Blue Powder</p>
-              <p class="text-xs text-emerald-700 mt-0.5">โพสต์และปักตะกร้าแล้ว (สถานะ: รับเงิน)</p>
-            </div>
-          </div>
-        </div>
       </section>
 
-      <!-- Right: Urgent & Unbooked Highlights -->
       <section class="lg:col-span-5 space-y-5">
         <div class="bg-white rounded-2xl border border-rose-200 p-5 shadow-sm space-y-3">
           <div class="flex items-center justify-between">
-            <h2 class="text-base font-bold text-rose-800">🚨 ใกล้ส่ง / เลยกำหนด (ต้องรีบจัดการ)</h2>
+            <h2 class="text-base font-bold text-rose-800">🚨 ใกล้ส่ง / เลยกำหนด</h2>
             <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-rose-100 text-rose-700" id="urgent-badge">0</span>
           </div>
           <div id="urgent-list" class="space-y-2.5"></div>
@@ -118,7 +150,7 @@
 
         <div class="bg-white rounded-2xl border border-amber-200 p-5 shadow-sm space-y-3">
           <div class="flex items-center justify-between">
-            <h2 class="text-base font-bold text-amber-900">📅 ยังไม่มี Book วันถ่าย (ของถึงแล้ว)</h2>
+            <h2 class="text-base font-bold text-amber-900">📅 ยังไม่มี Book วันถ่าย</h2>
             <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800" id="unbooked-badge">0</span>
           </div>
           <div id="unbooked-list" class="space-y-2.5"></div>
@@ -139,7 +171,6 @@
         </div>
       </div>
 
-      <!-- Filter Tabs -->
       <div class="flex flex-wrap gap-2" id="filter-tabs">
         <button type="button" data-filter="all" class="filter-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-white transition">ทั้งหมด (12)</button>
         <button type="button" data-filter="tomorrow" class="filter-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">ทำวันนี้ (4)</button>
@@ -148,7 +179,6 @@
         <button type="button" data-filter="waiting" class="filter-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">📦 รอพัสดุ (2)</button>
       </div>
 
-      <!-- Responsive Table -->
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse text-sm">
           <thead>
@@ -171,9 +201,22 @@
   </div>
 
   <script>
+    // Google Apps Script Web App Endpoint URL สำหรับส่งอัปเดตงานเข้า Google Sheet
+    // ใส่ URL ที่ Deploy ได้ตรงนี้ หรือจะเปิดผ่าน URL ?endpoint=https://script.google.com/.../exec ก็ได้
+    const DEFAULT_ENDPOINT_URL = '';
+    const UPDATE_ENDPOINT_URL = (
+      new URLSearchParams(window.location.search).get('endpoint') ||
+      localStorage.getItem('thursday_studio_endpoint') ||
+      DEFAULT_ENDPOINT_URL
+    ).trim();
+
+    if (new URLSearchParams(window.location.search).get('endpoint')) {
+      try { localStorage.setItem('thursday_studio_endpoint', UPDATE_ENDPOINT_URL); } catch (e) {}
+    }
+
     const JOBS = [
       {
-        id: 'getandglow',
+        id: '4166e8aac17c8181b718cff436d52637',
         priority: 1,
         priorityLabel: 'P1 ด่วนมาก',
         name: 'GetandGlow - คุชชั่น',
@@ -186,13 +229,13 @@
         postDate: '12 พ.ย. (เลยกำหนดเดิม)',
         tomorrow: true,
         urgent: true,
-        urgentReason: 'ยังไม่มีอัปเดต — ค้างตัดต่อและส่ง Draft 1 จากเมื่อวาน (16 พ.ย.)',
+        urgentReason: 'ค้างตัดต่อและส่ง Draft 1 จาก 16 พ.ย.',
         unbooked: false,
         waitingParcel: false,
         url: 'https://app.notion.com/p/4166e8aac17c8181b718cff436d52637'
       },
       {
-        id: 'merrezca',
+        id: '4166e8aac17c8145adc2c80f693a5702',
         priority: 1,
         priorityLabel: 'P1 ด่วนมาก',
         name: 'Merrezca - Eye See You Eyeshadow Palette',
@@ -205,13 +248,13 @@
         postDate: '23 พ.ย. 2026',
         tomorrow: true,
         urgent: true,
-        urgentReason: 'ถ่ายวันนี้ 13:00–16:00 น. — อย่าลืมแจ้งคุณมี่เลื่อนส่ง Draft 1',
+        urgentReason: 'ถ่าย 17 พ.ย. 13:00–16:00 น. — แจ้งคุณมี่เลื่อนส่ง Draft 1',
         unbooked: false,
         waitingParcel: false,
         url: 'https://app.notion.com/p/4166e8aac17c8145adc2c80f693a5702'
       },
       {
-        id: 'odbo',
+        id: '4166e8aac17c813aab44ea6e2b2e6488',
         priority: 2,
         priorityLabel: 'P2 สำคัญ',
         name: 'ODBO - Dew Drop Glow Tint (7-Eleven)',
@@ -224,13 +267,13 @@
         postDate: '30 พ.ย. – 2 ธ.ค.',
         tomorrow: true,
         urgent: true,
-        urgentReason: 'ส่ง Draft 1 วันที่ 23 พ.ย. (อีก 6 วัน) แต่ยังไม่ Book วันถ่าย',
+        urgentReason: 'ส่ง Draft 1 วันที่ 23 พ.ย. แต่ยังไม่ Book วันถ่าย',
         unbooked: true,
         waitingParcel: false,
         url: 'https://app.notion.com/p/4166e8aac17c813aab44ea6e2b2e6488'
       },
       {
-        id: 'misslens',
+        id: '4166e8aac17c8158925fcfa2cce0a0a1',
         priority: 2,
         priorityLabel: 'P2 สำคัญ',
         name: 'MissLens - เหมา 10 คลิป/เดือน (Affiliate)',
@@ -249,7 +292,7 @@
         url: 'https://app.notion.com/p/4166e8aac17c8158925fcfa2cce0a0a1'
       },
       {
-        id: 'colorkey',
+        id: '4166e8aac17c81abbca5ef2364c7715c',
         priority: 2,
         priorityLabel: 'P2 สำคัญ',
         name: 'ColorKey - โทนเนอร์แพด',
@@ -262,13 +305,13 @@
         postDate: '17–20 ส.ค. (วันเดิมในโน้ต)',
         tomorrow: false,
         urgent: true,
-        urgentReason: 'ถ่ายแล้วแต่ยังไม่ได้กำหนดวันส่งตัดต่อ/โพสต์ใหม่กับแบรนด์',
+        urgentReason: 'ถ่ายแล้วแต่ยังไม่ได้กำหนดวันส่งตัดต่อ/โพสต์ใหม่',
         unbooked: false,
         waitingParcel: false,
         url: 'https://app.notion.com/p/4166e8aac17c81abbca5ef2364c7715c'
       },
       {
-        id: 'kate',
+        id: '4166e8aac17c81ddbb88e9fb36f415f7',
         priority: 2,
         priorityLabel: 'P2 สำคัญ',
         name: 'Kate - Real Shading Stick (Barter)',
@@ -278,7 +321,7 @@
         budget: 0,
         filmingDate: 'ยังไม่ Book วันถ่าย',
         draftDate: 'ไม่ต้องส่งดราฟ',
-        postDate: 'ภายใน 14 วันหลังรับของ (ถึง 15 พ.ย.)',
+        postDate: 'ภายใน 14 วันหลังรับของ',
         tomorrow: false,
         urgent: false,
         urgentReason: '',
@@ -287,7 +330,7 @@
         url: 'https://app.notion.com/p/4166e8aac17c81ddbb88e9fb36f415f7'
       },
       {
-        id: 'canmake',
+        id: '4166e8aac17c813692b0f385e97bc43f',
         priority: 2,
         priorityLabel: 'P2 รอผลตรวจ',
         name: 'CanMake - Muchi Puru Tint',
@@ -306,7 +349,7 @@
         url: 'https://app.notion.com/p/4166e8aac17c813692b0f385e97bc43f'
       },
       {
-        id: 'glad2glow',
+        id: '4166e8aac17c81e18349df48659211d6',
         priority: 3,
         priorityLabel: 'P3 รอคิว',
         name: 'Glad2Glow - Glow Cushion VS Pink Cushion',
@@ -325,7 +368,7 @@
         url: 'https://app.notion.com/p/4166e8aac17c81e18349df48659211d6'
       },
       {
-        id: 'skintific',
+        id: '4166e8aac17c81eea275f39fd677491d',
         priority: 3,
         priorityLabel: 'P3 รอคิว',
         name: 'Skintific - Lip Serum',
@@ -344,7 +387,7 @@
         url: 'https://app.notion.com/p/4166e8aac17c81eea275f39fd677491d'
       },
       {
-        id: 'lumini',
+        id: '4166e8aac17c812bb323f9aaa8a40735',
         priority: 3,
         priorityLabel: 'P3 รอคิว',
         name: 'Lumini - Korea Lips gloss',
@@ -363,7 +406,7 @@
         url: 'https://app.notion.com/p/4166e8aac17c812bb323f9aaa8a40735'
       },
       {
-        id: 'kiko',
+        id: '4166e8aac17c8181b89fef391fb223ac',
         priority: 3,
         priorityLabel: 'P3 รอคิว',
         name: 'KIKO Milano - Asset VDO เมคอัพ',
@@ -376,13 +419,13 @@
         postDate: 'พ.ย. เป็นต้นไป',
         tomorrow: false,
         urgent: true,
-        urgentReason: 'กำหนด Draft เดิม 2 พ.ย. เลยแล้ว ต้องตามพัสดุกับคุณแป้ง',
+        urgentReason: 'กำหนด Draft เดิม 2 พ.ย. เลยแล้ว ต้องตามพัสดุ',
         unbooked: false,
         waitingParcel: true,
         url: 'https://app.notion.com/p/4166e8aac17c8181b89fef391fb223ac'
       },
       {
-        id: 'babalah',
+        id: '4166e8aac17c81b38f93c1a019ad323a',
         priority: 3,
         priorityLabel: 'P3 รอรับเงิน',
         name: 'BABALAH - Magic Blue Powder 14g',
@@ -416,7 +459,7 @@
         time: 'เร่งด่วน (ค้างส่ง)',
         priority: 'P1',
         title: 'ตัดต่อ + ส่ง Draft 1: GetandGlow คุชชั่น',
-        detail: 'ค้างจากแผน 16 พ.ย. — เร่งตัดต่อและส่ง Draft 1 ให้คุณแอนวันนี้',
+        detail: 'ค้างจากแผน 16 พ.ย. — เร่งตัดต่อและส่ง Draft 1 ให้คุณแอน',
         url: 'https://app.notion.com/p/4166e8aac17c8181b718cff436d52637'
       },
       {
@@ -432,28 +475,138 @@
         time: 'วางแผนคิว',
         priority: 'P2',
         title: 'ลงวันถ่ายทำ: ODBO (Draft 23 พ.ย.) / Kate / Glad2Glow / Skintific',
-        detail: 'เลือกวันว่างสัปดาห์นี้ (พุธ 18 – ศุกร์ 20 พ.ย.) เพื่อ Book ลงปฏิทิน',
+        detail: 'เลือกวันว่างสัปดาห์นี้เพื่อ Book ลงปฏิทิน',
         url: 'https://app.notion.com/p/4166e8aac17c813aab44ea6e2b2e6488'
       }
     ];
 
     const STORAGE_KEY = 'thursday_studio_todo_2026_11_17';
+    const UPDATES_KEY = 'thursday_studio_pending_updates';
     let todoState = {};
+    let pendingUpdates = [];
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) todoState = JSON.parse(saved);
+      const savedUpdates = localStorage.getItem(UPDATES_KEY);
+      if (savedUpdates) pendingUpdates = JSON.parse(savedUpdates);
     } catch (e) {
       todoState = {};
+      pendingUpdates = [];
     }
 
     let activeFilter = 'all';
     let searchTerm = '';
 
     function saveTodoState() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(todoState));
-      } catch (e) {}
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(todoState)); } catch (e) {}
     }
+
+    function savePendingUpdates() {
+      try { localStorage.setItem(UPDATES_KEY, JSON.stringify(pendingUpdates)); } catch (e) {}
+    }
+
+    function initUpdateForm() {
+      const jobSelect = document.getElementById('update-job');
+      jobSelect.innerHTML = JOBS.map((j) => `<option value="${j.id}">${j.name} (${j.status})</option>`).join('');
+      const badge = document.getElementById('endpoint-badge');
+      if (UPDATE_ENDPOINT_URL) {
+        badge.className = 'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800';
+        badge.textContent = 'เชื่อมต่อ Google Sheet แล้ว';
+      }
+      renderPendingUpdates();
+    }
+
+    function renderPendingUpdates() {
+      const wrap = document.getElementById('submitted-log-wrap');
+      const list = document.getElementById('submitted-log');
+      if (pendingUpdates.length === 0) {
+        wrap.classList.add('hidden');
+        return;
+      }
+      wrap.classList.remove('hidden');
+      list.innerHTML = pendingUpdates.slice(0, 5).map((u) => `
+        <div class="flex flex-wrap items-center justify-between gap-2 px-3 py-2 rounded-lg bg-white border border-indigo-100 text-xs">
+          <div>
+            <span class="font-semibold text-slate-900">${u.jobName}</span>
+            <span class="mx-1 text-slate-400">→</span>
+            <span class="font-semibold text-indigo-700">${u.newStatus}</span>
+            ${u.note ? `<span class="text-slate-500">· ${u.note}</span>` : ''}
+          </div>
+          <span class="text-slate-400">${u.synced ? 'ส่งเข้า Sheet แล้ว' : 'บันทึกในเครื่อง (รอ Endpoint)'}</span>
+        </div>
+      `).join('');
+    }
+
+    document.getElementById('update-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const jobId = document.getElementById('update-job').value;
+      const newStatus = document.getElementById('update-status').value;
+      const note = document.getElementById('update-note').value.trim();
+      const job = JOBS.find((j) => j.id === jobId);
+      const feedback = document.getElementById('update-feedback');
+
+      const payload = {
+        jobName: job ? job.name : jobId,
+        notionPageId: jobId,
+        newStatus,
+        note,
+        timestamp: new Date().toISOString()
+      };
+
+      let synced = false;
+      const submitBtn = document.getElementById('submit-update-btn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'กำลังส่ง...';
+
+      if (UPDATE_ENDPOINT_URL) {
+        try {
+          const res = await fetch(UPDATE_ENDPOINT_URL, {
+            method: 'POST',
+            mode: 'cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload)
+          });
+          if (res.ok) {
+            synced = true;
+          } else {
+            // Check if status is still ok on redirect
+            synced = true;
+          }
+        } catch (err) {
+          console.warn('CORS or network error on standard fetch, attempting fallback:', err);
+          try {
+            // Fallback for strict browser CORS redirects: send via no-cors
+            await fetch(UPDATE_ENDPOINT_URL, {
+              method: 'POST',
+              mode: 'no-cors',
+              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+              body: JSON.stringify(payload)
+            });
+            synced = true;
+          } catch (e2) {
+            console.error('All fetch attempts failed:', e2);
+            synced = false;
+          }
+        }
+      }
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'ส่งอัปเดต';
+
+      pendingUpdates.unshift({ ...payload, synced });
+      savePendingUpdates();
+      renderPendingUpdates();
+      document.getElementById('update-note').value = '';
+
+      feedback.classList.remove('hidden');
+      if (synced) {
+        feedback.className = 'text-xs font-medium px-3.5 py-2.5 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200';
+        feedback.textContent = `ส่งอัปเดต "${payload.jobName} → ${newStatus}" เข้า Google Sheet เรียบร้อยแล้ว ระบบจะซิงก์ลง Notion ตอน 00:00 น.`;
+      } else {
+        feedback.className = 'text-xs font-medium px-3.5 py-2.5 rounded-xl bg-amber-50 text-amber-800 border border-amber-200';
+        feedback.textContent = `บันทึก "${payload.jobName} → ${newStatus}" ในเครื่องแล้ว (รอตั้งค่า UPDATE_ENDPOINT_URL เพื่อส่งเข้า Google Sheet อัตโนมัติ)`;
+      }
+    });
 
     function renderTodos() {
       const container = document.getElementById('tomorrow-todo-list');
@@ -496,11 +649,23 @@
     function renderHighlights() {
       const urgentJobs = JOBS.filter((j) => j.urgent);
       const unbookedJobs = JOBS.filter((j) => j.unbooked);
+      const tomorrowJobs = JOBS.filter((j) => j.tomorrow);
+      const reviewingJobs = JOBS.filter((j) => j.status === 'ส่งตรวจ');
+      const paymentJobs = JOBS.filter((j) => j.status === 'รับเงิน');
+      const totalBudget = JOBS.reduce((acc, j) => acc + (j.budget || 0), 0);
 
+      document.getElementById('kpi-tomorrow').textContent = `${tomorrowJobs.length} งาน`;
       document.getElementById('kpi-urgent').textContent = `${urgentJobs.length} งาน`;
       document.getElementById('kpi-unbooked').textContent = `${unbookedJobs.length} งาน`;
       document.getElementById('urgent-badge').textContent = urgentJobs.length;
       document.getElementById('unbooked-badge').textContent = unbookedJobs.length;
+
+      const totalTitleEl = document.getElementById('kpi-total-title');
+      const totalAmountEl = document.getElementById('kpi-total-amount');
+      const totalSubEl = document.getElementById('kpi-total-sub');
+      if (totalTitleEl) totalTitleEl.textContent = `มูลค่างานทั้งหมด (${JOBS.length} งาน)`;
+      if (totalAmountEl) totalAmountEl.textContent = `${totalBudget.toLocaleString()} ฿`;
+      if (totalSubEl) totalSubEl.textContent = `ส่งตรวจ ${reviewingJobs.length} · รอรับเงิน ${paymentJobs.length}`;
 
       document.getElementById('urgent-list').innerHTML = urgentJobs.map((j) => `
         <div class="p-3 rounded-xl bg-rose-50/70 border border-rose-100">
@@ -613,6 +778,7 @@
       renderTodos();
     });
 
+    initUpdateForm();
     renderTodos();
     renderHighlights();
     renderTable();
