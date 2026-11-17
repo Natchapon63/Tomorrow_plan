@@ -203,7 +203,7 @@
   <script>
     // Google Apps Script Web App Endpoint URL สำหรับส่งอัปเดตงานเข้า Google Sheet
     // ใส่ URL ที่ Deploy ได้ตรงนี้ หรือจะเปิดผ่าน URL ?endpoint=https://script.google.com/.../exec ก็ได้
-    const DEFAULT_ENDPOINT_URL = '';
+    const DEFAULT_ENDPOINT_URL = 'https://script.google.com/macros/s/AKfycbzpcdgpIl9chWGLq0NcK95AjwUnaOF2VCX7z7_JI9dkZSfAgSzGfiDnFg9hMO-CYRyH/exec';
     const UPDATE_ENDPOINT_URL = (
       new URLSearchParams(window.location.search).get('endpoint') ||
       localStorage.getItem('thursday_studio_endpoint') ||
